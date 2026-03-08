@@ -1,10 +1,14 @@
 ## BUỔI 1: TỔNG QUAN EMBEDDED LINUX - CÀI MÔI TRƯỜNG
 
 ```
-- VMWare 17.6.4: Cài máy ảo ubuntu
-- Ubuntu: Ubuntu 22.04.5
+- VMWare 17.6.4: Cài máy ảo ubuntu (1)
+- Ubuntu: Ubuntu 22.04.5 (2)
 - VSCode: Remote + edit code
+- Mobaxterm: Remote
 ```
+
+(1) https://drive.google.com/file/d/1FZrVcQupYah6wI51ypD-hOq5TAdX6Rfd/edit
+(2) https://releases.ubuntu.com/jammy/
 
 ![alt text](image.png)
 
