@@ -1,5 +1,11 @@
 ## BUỔI 1: TỔNG QUAN EMBEDDED LINUX - CÀI MÔI TRƯỜNG
 
+```
+- VMWare 17.6.4: Cài máy ảo ubuntu
+- Ubuntu: Ubuntu 22.04.5
+- VSCode: Remote + edit code
+```
+
 ![alt text](image.png)
 
 ### 1.1 Hệ thống nhúng là gì
