@@ -39,7 +39,9 @@ EX: Công ty phát triển thiết bị Laptop ABC
 https://elixir.bootlin.com/linux/v6.19.3/source/kernel
 ```
 
-### 1.4 SSH
+## BUỔI 2: VIM - SSH - BUILD
+
+### 2.1 SSH
 
 Cài packet
 
@@ -50,7 +52,7 @@ sudo apt install openssh-server: Cài gói openssh-server
 sudo: mượn quyền cao nhất (root)
 openssh-server: packet -> ssh remote từ device khác
 
-### 1.5 CMD
+### 2.2 CMD
 
 ```
 uname -a : ra phiên bản
@@ -96,7 +98,7 @@ ls -a : lấy ra cả file ẩn
 rm -rf abc.txt : Xóa luôn file (không có trong thùng rác)
 ```
 
-### 1.6 VIM
+### 2.3 VIM
 
 ```
 vim abc.txt - Tạo file abc.txt và mở trình soạn thảo vim
@@ -112,13 +114,13 @@ g + g: di chuyển về đầu file
 d + d: xóa 1 dòng
 ```
 
-### 1.7 Hello world
+### 2.4 Hello world
 
 ```
 gcc -o filerun main.c
 ```
 
-## BUỔI 2: MAKEFILE
+## BUỔI 3: MAKEFILE
 
 Tham khảo seri makeFile
 😎 https://www.youtube.com/playlist?list=PLbQ6BBf-QSJwjnLCxxZioumIBd3HKZSXY
@@ -142,4 +144,61 @@ all
     gcc -c main main.c -I.
 clean
     rm -rf main
+```
+
+## BUỔI 4: FILE SYSTEM
+
+Một chương trình đang chạy trên linux thì bản thân chương trình đấy cũng phải được biểu diễn thông qua một file nào đấy trong hệ thống, ta có thể thao tác với chương trình thông qua file. Hoặc một ví dụ như chuột, bàn phím, màn hình, âm thanh cũng đều được đại diện bằng một file nào đó và ta có thể thao tác với âm thanh hoặc đọc ghi qua màn hình thì đều có thể thông qua các file đại diện cho nó.
+
+=> Linux quản lý mọi thứ thông qua file.
+
+### 4.1 Các loại file
+
+```cpp
+$ ls -l /
+drwxr-xr-x   2 root root  4096 Oct  9  /bin
+lrwxrwxrwx   1 root root     7 Oct  9  /lib -> usr/lib
+brw-rw----   1 root disk 8,  0 Oct  9  /dev/sda
+crw-rw-rw-   1 root tty  5,  0 Oct  9  /dev/tty
+-rw-r--r--   1 root root  189 Oct  9  /etc/fstab
+
+```
+
+![alt text](image-2.png)
+
+```cpp
+Regular: File thông thường ý
+Dir: Kiểu là folder ý
+Link file: Như kiểu shortcut ý
+```
+
+### 4.2 Quyền truy cập file (permission bits)
+
+Phần còn lại của cột đầu tiên cho biết quyền sử dụng file đó:
+
+- Mỗi ký tự đại diện cho một quyền.
+- Mỗi quyền lại được đại diện bởi một bit trong struct mode_t.
+- Các quyền này được gom theo từng nhóm: User, Group và Other.
+- Mỗi nhóm sẽ có 3 loại quyền là:
+  - read r: Cho phép đọc nội dung file hoặc xem file trong thư mục.
+  - write w: Cho phép ghi nội dung vào file hoặc xoá file trong thư mục.
+  - execute x: Cho phép thực thi file hoặc truy cập vào thư muc (cd).
+  - Ký tự - cho biết nó không có quyền tương ứng.
+
+=> Tóm lại quyền cho một file sẽ được đại diện bởi các bit gồm: 3 bit đặc biệt, 3 bit user, 3 bit group và 3 bit other
+
+Luôn có 1 user (root) có quyền hạn cao nhất
+Thằng này thì muốn làm gì cũng được
+Để chuyển sang root dùng cmd
+
+```cpp
+sudo su
+```
+
+### 4.3 Hiểu về file
+
+Command lấy ra toàn bộ thông tin file
+
+```cpp
+ls -l
 ```
