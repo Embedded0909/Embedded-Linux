@@ -335,6 +335,13 @@ $ ls -li
 
 Symbolic link
 
+```cpp
+$ ln -s file.txt sym_link
+$ ls -li
+1052 -rw-r--r-- 1 user user 1024 Oct 9 file.txt
+1053 lrwxrwxrwx 1 user user   8 Oct 9 sym_link -> file.txt
+```
+
 - sym_link có inode khác (1053).
 - Chỉ chứa đường dẫn đến file gốc, không trỏ trực tiếp vào block dữ liệu.
 - Khi file gốc xoá, symlink chết hay dangling.
