@@ -357,3 +357,59 @@ File table là một bảng chứa thông tin của một file đang mở trong 
 - Referenct count: số process đang sử dụng file này.
 
 Mỗi process có thể mở cùng một file, nhưng sẽ có entry trong file table khác nhau nếu nó có offset hoặc cờ mở file khác nhau.
+
+## BUỔI 5: VIRTUAL MEMORY
+
+### 5.1 Cơ chế swapping (hoán đổi giữa RAM và disk)
+
+Trong cơ chế này, những phần dữ liệu ít được sử dụng sẽ được chuyển từ RAM vào disk, trong khi những phần dữ liệu hay được sử dụng sẽ nằm trong RAM. Cơ chế này giúp hệ thống 100MB RAM có thể hỗ trợ các ứng dụng yêu cầu đến 1GB bộ nhớ.
+
+Chương trình máy tính tưởng rằng nó có một dải dài các địa chỉ liên tục trong bộ nhớ; nhưng trong thực tế một số phần đang được sử dụng nằm rải rác trong RAM, còn các phần tạm thời không dùng đến được lưu trữ trong một file trên đĩa cứng.
+![alt text](image-8.png)
+Khi ở user mode, mỗi tiến trình sẽ có một không gian địa chỉ bộ nhớ riêng, điều này làm cho:
+
+- Tiến trình A không thể đọc hoặc ghi vào địa chỉ bộ nhớ của tiến trình B
+- Ngay cả khi cả hai có cùng địa chỉ ảo (ví dụ 0x7F793950000), chúng sẽ trỏ đến 2 physical address khác nhau.
+
+![alt text](image-7.png)
+
+→ Giúp kernel ngăn việc tiến trình A đọc hoặc ghi trái phép vào các vùng nhớ không thuộc về nó.
+
+### 5.2 Tính chất
+
+Virtual memory có một vài lợi ích tính chất như sau
+
+```
+- Abstraction: Giấu đi chi tiết vật lý
+- Efficiency: Tăng hiệu quả dùng RAM
+- Protection : Bảo vệ truy cập
+```
+
+#### 5.2.1 Abstraction
+
+Trước khi có virtual memory, tiến trình phải biết mình nằm ở chỗ nào trong bộ nhớ vật lý. Giờ thì tiến trình sẽ chỉ biết về địa chỉ ảo mà không biết gì về địa chỉ vật lý của nó. Điều này sẽ được kernel ánh xạ thông qua cơ chế page table.
+
+→ Địa chỉ ảo của một biến cố định nhưng địa chỉ vậy lý tương ứng có thể bị thay đổi.
+
+Ví dụ: Biến A có địa chỉ ảo là 0x10. Tuỳ thuộc vào OS thì địa chỉ vật lý của nó có thể thay đổi là 0x20, 0x30,...
+
+Ngoài ra, chương trình chạy ở user mode sẽ không có bất kỳ phương pháp nào để có thể biết được địa chỉ vật lý của nó, trừ khi nó thực hiện system call xuống driver để driver đọc địa chỉ vật lý.
+
+#### 5.2.2 Efficiency – Tăng hiệu quả dùng RAM
+
+Nhờ cơ chế page của virtual memory:
+
+Mỗi tiến trình chỉ nạp những phần thực sự cần vào RAM.
+Phần còn lại có thể swap ra disk.
+Nhiều tiến trình có thể chia sẻ cùng một physical page như shared library.
+→ Virtual memory cho phép “RAM logic” lớn hơn “RAM thật”.
+
+#### 5.2.3 Protection – Bảo vệ truy cập
+
+Mỗi page trong page table có bit quyền:
+
+Read / Write / Execute
+User / Supervisor
+Nếu chương trình vi phạm (ví dụ ghi vào page read-only hoặc truy cập trái phép vào không gian hệ thống), CPU sinh ra page fault → kernel xử lý hoặc kill process.
+
+### 5.3 Page table
